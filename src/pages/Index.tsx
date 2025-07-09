@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, MapPin, Clock, Star, ShoppingCart, Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, MapPin, Clock, Star, ShoppingCart, Menu, X, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -313,8 +313,18 @@ const Index = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Featured Restaurants</h2>
-            <p className="text-xl text-gray-600">Discover the best restaurants in your area</p>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex-1">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Featured Restaurants</h2>
+                <p className="text-xl text-gray-600">Discover the best restaurants in your area</p>
+              </div>
+              <Link to="/restaurants">
+                <Button variant="outline" className="flex items-center gap-2 hover:bg-orange-50 hover:border-orange-500 hover:text-orange-600">
+                  View All
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -368,8 +378,18 @@ const Index = () => {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Popular Dishes</h2>
-            <p className="text-xl text-gray-600">Most ordered items this week</p>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex-1">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Popular Dishes</h2>
+                <p className="text-xl text-gray-600">Most ordered items this week</p>
+              </div>
+              <Link to="/restaurants">
+                <Button variant="outline" className="flex items-center gap-2 hover:bg-orange-50 hover:border-orange-500 hover:text-orange-600">
+                  View All
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
