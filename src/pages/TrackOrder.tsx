@@ -1,10 +1,13 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Clock, MapPin, Phone, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CheckCircle, Clock, MapPin, Phone, User, ArrowLeft } from "lucide-react";
 
 const TrackOrder = () => {
+  const navigate = useNavigate();
   const [currentStatus, setCurrentStatus] = useState(1);
 
   const orderStatuses = [
@@ -55,7 +58,17 @@ const TrackOrder = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Track Your Order</h1>
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <h1 className="text-3xl font-bold text-gray-800">Track Your Order</h1>
+        </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Order Status */}

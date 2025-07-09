@@ -10,6 +10,7 @@ import { Search, MapPin, Star, Clock, Filter } from "lucide-react";
 const Restaurants = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
+  const [showMore, setShowMore] = useState(false);
 
   const restaurants = [
     {
@@ -77,6 +78,72 @@ const Restaurants = () => {
       image: "https://images.unsplash.com/photo-1565299585323-38174c6a8d93?w=400&h=300&fit=crop",
       isOpen: true,
       location: "South Side"
+    },
+    {
+      id: 7,
+      name: "Pasta Corner",
+      rating: 4.3,
+      cuisine: "Italian",
+      deliveryTime: "35-45 min",
+      deliveryFee: 3.99,
+      image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=300&fit=crop",
+      isOpen: true,
+      location: "West End"
+    },
+    {
+      id: 8,
+      name: "BBQ Master",
+      rating: 4.6,
+      cuisine: "BBQ",
+      deliveryTime: "30-40 min",
+      deliveryFee: 3.49,
+      image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",
+      isOpen: true,
+      location: "East Side"
+    },
+    {
+      id: 9,
+      name: "Healthy Bites",
+      rating: 4.2,
+      cuisine: "Healthy",
+      deliveryTime: "25-35 min",
+      deliveryFee: 2.49,
+      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
+      isOpen: true,
+      location: "North Park"
+    },
+    {
+      id: 10,
+      name: "Café Delight",
+      rating: 4.4,
+      cuisine: "Café",
+      deliveryTime: "15-25 min",
+      deliveryFee: 1.99,
+      image: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=400&h=300&fit=crop",
+      isOpen: true,
+      location: "City Center"
+    },
+    {
+      id: 11,
+      name: "Thai Spice",
+      rating: 4.7,
+      cuisine: "Thai",
+      deliveryTime: "30-40 min",
+      deliveryFee: 3.99,
+      image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=400&h=300&fit=crop",
+      isOpen: true,
+      location: "Thailand District"
+    },
+    {
+      id: 12,
+      name: "Mediterranean Grill",
+      rating: 4.5,
+      cuisine: "Mediterranean",
+      deliveryTime: "35-45 min",
+      deliveryFee: 4.49,
+      image: "https://images.unsplash.com/photo-1544510263-4bd664d474c6?w=400&h=300&fit=crop",
+      isOpen: true,
+      location: "Harbor View"
     }
   ];
 
@@ -84,6 +151,8 @@ const Restaurants = () => {
     restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     restaurant.cuisine.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const displayedRestaurants = showMore ? filteredRestaurants : filteredRestaurants.slice(0, 6);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -125,7 +194,7 @@ const Restaurants = () => {
       {/* Restaurant Grid */}
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredRestaurants.map((restaurant) => (
+          {displayedRestaurants.map((restaurant) => (
             <Card key={restaurant.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
               <div className="relative">
                 <img
@@ -168,6 +237,19 @@ const Restaurants = () => {
             </Card>
           ))}
         </div>
+
+        {/* View More Button */}
+        {filteredRestaurants.length > 6 && (
+          <div className="text-center mt-8">
+            <Button
+              onClick={() => setShowMore(!showMore)}
+              variant="outline"
+              className="px-8"
+            >
+              {showMore ? "Show Less" : `View More (${filteredRestaurants.length - 6} more)`}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

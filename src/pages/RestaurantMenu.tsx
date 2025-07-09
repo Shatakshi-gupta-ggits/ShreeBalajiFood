@@ -1,14 +1,16 @@
+
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Star, Clock, MapPin, Plus, Minus, ShoppingCart } from "lucide-react";
+import { Star, Clock, MapPin, Plus, ArrowLeft } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 
 const RestaurantMenu = () => {
   const { id } = useParams();
-  const { addToCart, cartItems } = useCart();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [activeCategory, setActiveCategory] = useState("starters");
 
   const restaurant = {
@@ -72,6 +74,17 @@ const RestaurantMenu = () => {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="absolute top-4 left-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(-1)}
+            className="bg-white/90 hover:bg-white"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+        </div>
         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
           <div className="container mx-auto">
             <h1 className="text-3xl md:text-4xl font-bold mb-2">{restaurant.name}</h1>
