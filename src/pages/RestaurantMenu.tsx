@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -59,8 +58,7 @@ const RestaurantMenu = () => {
       name: item.name,
       price: item.price,
       image: item.image,
-      restaurant: restaurant.name,
-      quantity: 1
+      restaurant: restaurant.name
     });
   };
 
