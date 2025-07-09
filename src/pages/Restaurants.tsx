@@ -1,17 +1,18 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, MapPin, Star, Clock, Filter } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Star, Clock, MapPin, Search, Filter, ArrowLeft } from "lucide-react";
 
 const Restaurants = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterOpen, setFilterOpen] = useState(false);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
   const [showMore, setShowMore] = useState(false);
-
+  
   const restaurants = [
     {
       id: 1,
@@ -59,91 +60,91 @@ const Restaurants = () => {
     },
     {
       id: 5,
-      name: "Sushi Zen",
-      rating: 4.5,
-      cuisine: "Japanese",
-      deliveryTime: "40-50 min",
-      deliveryFee: 4.99,
-      image: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop",
-      isOpen: true,
-      location: "Uptown"
-    },
-    {
-      id: 6,
       name: "Taco Fiesta",
-      rating: 4.4,
+      rating: 4.5,
       cuisine: "Mexican",
       deliveryTime: "20-30 min",
       deliveryFee: 2.99,
-      image: "https://images.unsplash.com/photo-1565299585323-38174c6a8d93?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
       isOpen: true,
-      location: "South Side"
+      location: "South District"
+    },
+    {
+      id: 6,
+      name: "Sushi Zen",
+      rating: 4.8,
+      cuisine: "Japanese",
+      deliveryTime: "35-45 min",
+      deliveryFee: 4.99,
+      image: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop",
+      isOpen: true,
+      location: "Midtown"
     },
     {
       id: 7,
-      name: "Pasta Corner",
-      rating: 4.3,
-      cuisine: "Italian",
-      deliveryTime: "35-45 min",
+      name: "Mediterranean Delight",
+      rating: 4.4,
+      cuisine: "Mediterranean",
+      deliveryTime: "25-35 min",
       deliveryFee: 3.99,
-      image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1544510808-5f445e1793da?w=400&h=300&fit=crop",
       isOpen: true,
       location: "West End"
     },
     {
       id: 8,
-      name: "BBQ Master",
+      name: "Thai Elephant",
       rating: 4.6,
-      cuisine: "BBQ",
+      cuisine: "Thai",
       deliveryTime: "30-40 min",
       deliveryFee: 3.49,
-      image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=400&h=300&fit=crop",
       isOpen: true,
-      location: "East Side"
+      location: "Asia Quarter"
     },
     {
       id: 9,
-      name: "Healthy Bites",
-      rating: 4.2,
-      cuisine: "Healthy",
-      deliveryTime: "25-35 min",
-      deliveryFee: 2.49,
-      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
-      isOpen: true,
-      location: "North Park"
+      name: "French Bistro",
+      rating: 4.7,
+      cuisine: "French",
+      deliveryTime: "40-50 min",
+      deliveryFee: 5.99,
+      image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop",
+      isOpen: false,
+      location: "Uptown"
     },
     {
       id: 10,
-      name: "Café Delight",
-      rating: 4.4,
-      cuisine: "Café",
-      deliveryTime: "15-25 min",
-      deliveryFee: 1.99,
-      image: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=400&h=300&fit=crop",
+      name: "BBQ Smokehouse",
+      rating: 4.5,
+      cuisine: "BBQ",
+      deliveryTime: "25-35 min",
+      deliveryFee: 3.99,
+      image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",
       isOpen: true,
-      location: "City Center"
+      location: "Industrial District"
     },
     {
       id: 11,
-      name: "Thai Spice",
-      rating: 4.7,
-      cuisine: "Thai",
-      deliveryTime: "30-40 min",
-      deliveryFee: 3.99,
-      image: "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=400&h=300&fit=crop",
+      name: "Vegetarian Haven",
+      rating: 4.3,
+      cuisine: "Vegetarian",
+      deliveryTime: "20-30 min",
+      deliveryFee: 2.99,
+      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
       isOpen: true,
-      location: "Thailand District"
+      location: "Green Valley"
     },
     {
       id: 12,
-      name: "Mediterranean Grill",
-      rating: 4.5,
-      cuisine: "Mediterranean",
-      deliveryTime: "35-45 min",
-      deliveryFee: 4.49,
-      image: "https://images.unsplash.com/photo-1544510263-4bd664d474c6?w=400&h=300&fit=crop",
+      name: "Coffee Corner",
+      rating: 4.2,
+      cuisine: "Coffee & Desserts",
+      deliveryTime: "15-25 min",
+      deliveryFee: 1.99,
+      image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=300&fit=crop",
       isOpen: true,
-      location: "Harbor View"
+      location: "Downtown"
     }
   ];
 
@@ -152,14 +153,24 @@ const Restaurants = () => {
     restaurant.cuisine.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const displayedRestaurants = showMore ? filteredRestaurants : filteredRestaurants.slice(0, 6);
+  const visibleRestaurants = showMore ? filteredRestaurants : filteredRestaurants.slice(0, 6);
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Restaurants</h1>
+          <div className="flex items-center gap-4 mb-6">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+            <h1 className="text-3xl font-bold text-gray-800">Restaurants</h1>
+          </div>
           
           {/* Search and Filter */}
           <div className="flex flex-col md:flex-row gap-4">
@@ -167,34 +178,23 @@ const Restaurants = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
                 placeholder="Search restaurants or cuisines..."
+                className="pl-10"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
               />
             </div>
-            <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
-                placeholder="Enter location"
-                className="pl-10 w-full md:w-64"
-              />
-            </div>
-            <Button 
-              variant="outline" 
-              onClick={() => setFilterOpen(!filterOpen)}
-              className="flex items-center gap-2"
-            >
+            <Button variant="outline" className="flex items-center gap-2">
               <Filter className="w-4 h-4" />
-              Filters
+              Filter
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Restaurant Grid */}
+      {/* Restaurants Grid */}
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayedRestaurants.map((restaurant) => (
+          {visibleRestaurants.map((restaurant) => (
             <Card key={restaurant.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
               <div className="relative">
                 <img
@@ -210,7 +210,8 @@ const Restaurants = () => {
               </div>
               <CardContent className="p-4">
                 <h3 className="font-bold text-lg mb-1">{restaurant.name}</h3>
-                <p className="text-gray-600 text-sm mb-2">{restaurant.cuisine} • {restaurant.location}</p>
+                <p className="text-gray-600 text-sm mb-2">{restaurant.cuisine}</p>
+                <p className="text-gray-500 text-sm mb-3">{restaurant.location}</p>
                 
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-1">
@@ -227,11 +228,13 @@ const Restaurants = () => {
                   <span className="text-sm text-gray-600">
                     Delivery: ${restaurant.deliveryFee}
                   </span>
-                  <Link to={`/restaurant/${restaurant.id}`}>
-                    <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
-                      View Menu
-                    </Button>
-                  </Link>
+                  <Button 
+                    size="sm" 
+                    className="bg-orange-500 hover:bg-orange-600"
+                    onClick={() => navigate(`/restaurant/${restaurant.id}`)}
+                  >
+                    View Menu
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -242,11 +245,11 @@ const Restaurants = () => {
         {filteredRestaurants.length > 6 && (
           <div className="text-center mt-8">
             <Button
-              onClick={() => setShowMore(!showMore)}
               variant="outline"
+              onClick={() => setShowMore(!showMore)}
               className="px-8"
             >
-              {showMore ? "Show Less" : `View More (${filteredRestaurants.length - 6} more)`}
+              {showMore ? "View Less" : "View More"}
             </Button>
           </div>
         )}

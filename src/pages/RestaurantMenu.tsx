@@ -12,6 +12,7 @@ const RestaurantMenu = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [activeCategory, setActiveCategory] = useState("starters");
+  const [showMoreDishes, setShowMoreDishes] = useState(false);
 
   const restaurant = {
     id: Number(id),
@@ -35,22 +36,32 @@ const RestaurantMenu = () => {
 
   const menuItems = {
     starters: [
-      { id: 1, name: "Garlic Bread", description: "Crispy bread with garlic butter", price: 6.99, image: "https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?w=300&h=200&fit=crop" },
-      { id: 2, name: "Caesar Salad", description: "Fresh romaine with parmesan", price: 8.99, image: "https://images.unsplash.com/photo-1551248429-40975aa4de74?w=300&h=200&fit=crop" }
+      { id: 1, name: "Garlic Bread", description: "Crispy bread with garlic butter", price: 6.99, image: "https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?w=300&h=200&fit=crop", offer: "20% OFF" },
+      { id: 2, name: "Caesar Salad", description: "Fresh romaine with parmesan", price: 8.99, image: "https://images.unsplash.com/photo-1551248429-40975aa4de74?w=300&h=200&fit=crop", offer: null },
+      { id: 21, name: "Bruschetta", description: "Toasted bread with tomatoes", price: 7.99, image: "https://images.unsplash.com/photo-1572441713132-51c75654db73?w=300&h=200&fit=crop", offer: "15% OFF" },
+      { id: 22, name: "Mozzarella Sticks", description: "Golden fried cheese sticks", price: 9.99, image: "https://images.unsplash.com/photo-1548869206-93b036288d7e?w=300&h=200&fit=crop", offer: null }
     ],
     pizza: [
-      { id: 3, name: "Margherita Pizza", description: "Fresh tomato, mozzarella, basil", price: 12.99, image: "https://images.unsplash.com/photo-1604382354936-07c5b5d013d8?w=300&h=200&fit=crop" },
-      { id: 4, name: "Pepperoni Pizza", description: "Spicy pepperoni with cheese", price: 15.99, image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=300&h=200&fit=crop" }
+      { id: 3, name: "Margherita Pizza", description: "Fresh tomato, mozzarella, basil", price: 12.99, image: "https://images.unsplash.com/photo-1604382354936-07c5b5d013d8?w=300&h=200&fit=crop", offer: "Buy 1 Get 1 Free" },
+      { id: 4, name: "Pepperoni Pizza", description: "Spicy pepperoni with cheese", price: 15.99, image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=300&h=200&fit=crop", offer: null },
+      { id: 23, name: "Mushroom Pizza", description: "Fresh mushrooms with cheese", price: 14.99, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=200&fit=crop", offer: "25% OFF" },
+      { id: 24, name: "BBQ Chicken Pizza", description: "BBQ sauce with grilled chicken", price: 17.99, image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300&h=200&fit=crop", offer: null }
     ],
     pasta: [
-      { id: 5, name: "Spaghetti Carbonara", description: "Creamy pasta with bacon", price: 14.99, image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=300&h=200&fit=crop" },
-      { id: 6, name: "Penne Arrabbiata", description: "Spicy tomato pasta", price: 13.99, image: "https://images.unsplash.com/photo-1563379091339-03246963d25c?w=300&h=200&fit=crop" }
+      { id: 5, name: "Spaghetti Carbonara", description: "Creamy pasta with bacon", price: 14.99, image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=300&h=200&fit=crop", offer: null },
+      { id: 6, name: "Penne Arrabbiata", description: "Spicy tomato pasta", price: 13.99, image: "https://images.unsplash.com/photo-1563379091339-03246963d25c?w=300&h=200&fit=crop", offer: "30% OFF" },
+      { id: 25, name: "Fettuccine Alfredo", description: "Rich and creamy white sauce", price: 16.99, image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=300&h=200&fit=crop", offer: null },
+      { id: 26, name: "Lasagna", description: "Layered pasta with meat sauce", price: 18.99, image: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=300&h=200&fit=crop", offer: "20% OFF" }
     ],
     desserts: [
-      { id: 7, name: "Tiramisu", description: "Classic Italian dessert", price: 7.99, image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=300&h=200&fit=crop" }
+      { id: 7, name: "Tiramisu", description: "Classic Italian dessert", price: 7.99, image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=300&h=200&fit=crop", offer: null },
+      { id: 27, name: "Panna Cotta", description: "Silky smooth Italian dessert", price: 6.99, image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&h=200&fit=crop", offer: "Buy 2 Get 1 Free" },
+      { id: 28, name: "Gelato", description: "Authentic Italian ice cream", price: 5.99, image: "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=300&h=200&fit=crop", offer: null }
     ],
     beverages: [
-      { id: 8, name: "Coke", description: "Chilled soft drink", price: 2.99, image: "https://images.unsplash.com/photo-1581636625402-29d2c0502b5a?w=300&h=200&fit=crop" }
+      { id: 8, name: "Coke", description: "Chilled soft drink", price: 2.99, image: "https://images.unsplash.com/photo-1581636625402-29d2c0502b5a?w=300&h=200&fit=crop", offer: null },
+      { id: 29, name: "Italian Soda", description: "Sparkling flavored water", price: 3.99, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=200&fit=crop", offer: "15% OFF" },
+      { id: 30, name: "Fresh Juice", description: "Freshly squeezed orange juice", price: 4.99, image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300&h=200&fit=crop", offer: null }
     ]
   };
 
@@ -63,6 +74,9 @@ const RestaurantMenu = () => {
       restaurant: restaurant.name
     });
   };
+
+  const currentItems = menuItems[activeCategory as keyof typeof menuItems] || [];
+  const visibleItems = showMoreDishes ? currentItems : currentItems.slice(0, 3);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -119,7 +133,10 @@ const RestaurantMenu = () => {
                 {menuCategories.map((category) => (
                   <button
                     key={category.id}
-                    onClick={() => setActiveCategory(category.id)}
+                    onClick={() => {
+                      setActiveCategory(category.id);
+                      setShowMoreDishes(false);
+                    }}
                     className={`w-full text-left p-3 rounded-lg transition-colors ${
                       activeCategory === category.id
                         ? "bg-orange-500 text-white"
@@ -137,15 +154,22 @@ const RestaurantMenu = () => {
           {/* Menu Items */}
           <div className="lg:col-span-3">
             <div className="space-y-6">
-              {menuItems[activeCategory as keyof typeof menuItems]?.map((item) => (
+              {visibleItems.map((item) => (
                 <Card key={item.id} className="overflow-hidden">
                   <CardContent className="p-0">
                     <div className="flex flex-col md:flex-row">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full md:w-48 h-48 md:h-32 object-cover"
-                      />
+                      <div className="relative w-full md:w-48 h-48 md:h-32">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                        />
+                        {item.offer && (
+                          <Badge className="absolute top-2 left-2 bg-red-500 text-white">
+                            {item.offer}
+                          </Badge>
+                        )}
+                      </div>
                       <div className="p-4 flex-1">
                         <div className="flex justify-between items-start mb-2">
                           <h3 className="text-lg font-semibold">{item.name}</h3>
@@ -164,6 +188,18 @@ const RestaurantMenu = () => {
                   </CardContent>
                 </Card>
               ))}
+              
+              {currentItems.length > 3 && (
+                <div className="text-center">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowMoreDishes(!showMoreDishes)}
+                    className="px-8"
+                  >
+                    {showMoreDishes ? "View Less" : "View More"}
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
