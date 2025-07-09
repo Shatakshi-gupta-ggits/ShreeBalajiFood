@@ -1,15 +1,19 @@
-
 import { useState, useEffect } from "react";
 import { Search, MapPin, Clock, Star, ShoppingCart, Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
 
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [cartCount, setCartCount] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [location, setLocation] = useState("");
+  const { addToCart, getCartCount } = useCart();
+  const navigate = useNavigate();
 
   const heroSlides = [
     {
@@ -117,10 +121,30 @@ const Index = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const addToCart = (dishId: number) => {
-    setCartCount(prev => prev + 1);
-    console.log(`Added dish ${dishId} to cart`);
+  const handleAddToCart = (dish: any) => {
+    addToCart({
+      id: dish.id,
+      name: dish.name,
+      price: dish.price,
+      image: dish.image,
+      restaurant: dish.restaurant
+    });
+    console.log(`Added ${dish.name} to cart`);
   };
+
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      navigate(`/restaurants?search=${encodeURIComponent(searchTerm)}&location=${encodeURIComponent(location)}`);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const cartCount = getCartCount();
 
   return (
     <div className="min-h-screen bg-background">
@@ -129,44 +153,48 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-2">
               <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">F</span>
               </div>
               <span className="text-2xl font-bold text-gray-800">FoodExpress</span>
-            </div>
+            </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
-              <a href="#" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Home</a>
-              <a href="#" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Restaurants</a>
+              <Link to="/" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Home</Link>
+              <Link to="/restaurants" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Restaurants</Link>
               <div className="relative group">
                 <button className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Menu Categories</button>
                 <div className="absolute top-full left-0 w-48 bg-white shadow-lg rounded-md py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                  <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-orange-50">Vegetarian</a>
-                  <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-orange-50">Non-Vegetarian</a>
-                  <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-orange-50">Fast Food</a>
-                  <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-orange-50">Desserts</a>
+                  <Link to="/restaurants?category=vegetarian" className="block px-4 py-2 text-gray-700 hover:bg-orange-50">Vegetarian</Link>
+                  <Link to="/restaurants?category=non-vegetarian" className="block px-4 py-2 text-gray-700 hover:bg-orange-50">Non-Vegetarian</Link>
+                  <Link to="/restaurants?category=fast-food" className="block px-4 py-2 text-gray-700 hover:bg-orange-50">Fast Food</Link>
+                  <Link to="/restaurants?category=desserts" className="block px-4 py-2 text-gray-700 hover:bg-orange-50">Desserts</Link>
                 </div>
               </div>
-              <a href="#" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Deals & Offers</a>
-              <a href="#" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Track Order</a>
+              <Link to="/restaurants?deals=true" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Deals & Offers</Link>
+              <Link to="/track-order" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Track Order</Link>
             </nav>
 
             {/* Right side */}
             <div className="flex items-center space-x-4">
-              <Button variant="outline" className="hidden md:flex">Login</Button>
-              <Button className="bg-orange-500 hover:bg-orange-600 hidden md:flex">Sign Up</Button>
+              <Link to="/login">
+                <Button variant="outline" className="hidden md:flex">Login</Button>
+              </Link>
+              <Link to="/signup">
+                <Button className="bg-orange-500 hover:bg-orange-600 hidden md:flex">Sign Up</Button>
+              </Link>
               
               {/* Cart */}
-              <div className="relative">
+              <Link to="/cart" className="relative">
                 <ShoppingCart className="w-6 h-6 text-gray-700 cursor-pointer hover:text-orange-500 transition-colors" />
                 {cartCount > 0 && (
                   <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                     {cartCount}
                   </span>
                 )}
-              </div>
+              </Link>
 
               {/* Mobile menu button */}
               <button
@@ -182,14 +210,18 @@ const Index = () => {
           {isMenuOpen && (
             <div className="lg:hidden py-4 border-t">
               <nav className="flex flex-col space-y-4">
-                <a href="#" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Home</a>
-                <a href="#" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Restaurants</a>
-                <a href="#" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Menu Categories</a>
-                <a href="#" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Deals & Offers</a>
-                <a href="#" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Track Order</a>
+                <Link to="/" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Home</Link>
+                <Link to="/restaurants" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Restaurants</Link>
+                <Link to="/restaurants?category=all" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Menu Categories</Link>
+                <Link to="/restaurants?deals=true" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Deals & Offers</Link>
+                <Link to="/track-order" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Track Order</Link>
                 <div className="flex space-x-2 pt-2">
-                  <Button variant="outline" size="sm">Login</Button>
-                  <Button size="sm" className="bg-orange-500 hover:bg-orange-600">Sign Up</Button>
+                  <Link to="/login">
+                    <Button variant="outline" size="sm">Login</Button>
+                  </Link>
+                  <Link to="/signup">
+                    <Button size="sm" className="bg-orange-500 hover:bg-orange-600">Sign Up</Button>
+                  </Link>
                 </div>
               </nav>
             </div>
@@ -227,6 +259,9 @@ const Index = () => {
                 <Input
                   placeholder="Search for dishes or restaurants..."
                   className="pl-10 h-12 text-gray-800"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
               </div>
               <div className="relative">
@@ -234,9 +269,12 @@ const Index = () => {
                 <Input
                   placeholder="Enter location"
                   className="pl-10 h-12 w-full md:w-48 text-gray-800"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
               </div>
-              <Button className="h-12 px-8 bg-orange-500 hover:bg-orange-600">
+              <Button onClick={handleSearch} className="h-12 px-8 bg-orange-500 hover:bg-orange-600">
                 Search
               </Button>
             </div>
@@ -313,9 +351,11 @@ const Index = () => {
                     <span className="text-sm text-gray-600">
                       Delivery: ${restaurant.deliveryFee}
                     </span>
-                    <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
-                      View Menu
-                    </Button>
+                    <Link to={`/restaurant/${restaurant.id}`}>
+                      <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
+                        View Menu
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>
@@ -355,7 +395,7 @@ const Index = () => {
                   </div>
                   
                   <Button 
-                    onClick={() => addToCart(dish.id)}
+                    onClick={() => handleAddToCart(dish)}
                     className="w-full bg-orange-500 hover:bg-orange-600"
                   >
                     Add to Cart
