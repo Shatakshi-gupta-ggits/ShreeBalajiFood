@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Star, Clock, MapPin, Search, Filter, ArrowLeft, Plus } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import LocationSelector from "@/components/LocationSelector";
+import { useLocation } from "@/contexts/LocationContext";
 
 const Restaurants = () => {
   const navigate = useNavigate();
@@ -14,7 +15,8 @@ const Restaurants = () => {
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
   const [showMore, setShowMore] = useState(false);
   const { addToCart } = useCart();
-  
+  const { selectedOutlet } = useLocation();
+
   const allFoodItems = [
     // Pizza Items
     { id: 1, name: "Sweet Corn Pizza", price: 99.00, category: "pizza", image: "https://images.unsplash.com/photo-1604382354936-07c5b5d013d8?w=300&h=200&fit=crop", description: "Delicious pizza with sweet corn topping", rating: 4.5, offer: "20% OFF" },
@@ -40,7 +42,12 @@ const Restaurants = () => {
     { id: 15, name: "Pro Combo - The Balaji Special Box", price: 349.00, category: "combos", image: "https://images.unsplash.com/photo-1604382354936-07c5b5d013d8?w=300&h=200&fit=crop", description: "Our signature combo box", rating: 4.9, offer: "🏆 Special" }
   ];
 
-  const filteredItems = allFoodItems.filter(item =>
+  const getMenuForLocation = (outletId: string) => {
+    return allFoodItems;
+  };
+
+  const menuItems = getMenuForLocation(selectedOutlet.id);
+  const filteredItems = menuItems.filter(item =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.category.toLowerCase().includes(searchTerm.toLowerCase())
@@ -73,7 +80,15 @@ const Restaurants = () => {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
-            <h1 className="text-3xl font-bold text-gray-800">Our Menu - Shri Balaji Foods</h1>
+            <div className="flex-1">
+              <h1 className="text-3xl font-bold text-gray-800">Our Menu - Shri Balaji Foods</h1>
+              <p className="text-gray-600 mt-1">Location: {selectedOutlet.name}</p>
+            </div>
+          </div>
+
+          {/* Location Selector */}
+          <div className="mb-6">
+            <LocationSelector />
           </div>
           
           {/* Search and Filter */}

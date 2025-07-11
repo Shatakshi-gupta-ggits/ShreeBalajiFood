@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { Search, MapPin, Clock, Star, ShoppingCart, Menu, X, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { Search, MapPin, Clock, Star, ShoppingCart, Menu, X, ChevronLeft, ChevronRight, ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import LocationSelector from "@/components/LocationSelector";
+import { useLocation } from "@/contexts/LocationContext";
 
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,6 +16,7 @@ const Index = () => {
   const [location, setLocation] = useState("");
   const { addToCart, getCartCount } = useCart();
   const navigate = useNavigate();
+  const { selectedOutlet } = useLocation();
 
   const heroSlides = [
     {
@@ -130,6 +133,11 @@ const Index = () => {
               <span className="text-2xl font-bold text-gray-800">Shri Balaji Foods</span>
             </Link>
 
+            {/* Location Selector - Desktop */}
+            <div className="hidden lg:block">
+              <LocationSelector />
+            </div>
+
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
               <Link to="/" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Home</Link>
@@ -179,6 +187,11 @@ const Index = () => {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <div className="lg:hidden py-4 border-t">
+              {/* Mobile Location Selector */}
+              <div className="mb-4">
+                <LocationSelector />
+              </div>
+              
               <nav className="flex flex-col space-y-4">
                 <Link to="/" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Home</Link>
                 <Link to="/restaurants" className="text-gray-700 hover:text-orange-500 font-medium transition-colors">Menu</Link>
@@ -287,6 +300,7 @@ const Index = () => {
               <div className="flex-1">
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Restaurant</h2>
                 <p className="text-xl text-gray-600">Pure vegetarian food made with love</p>
+                <p className="text-lg text-gray-500 mt-2">Currently showing: {selectedOutlet.name}</p>
               </div>
               <Link to="/restaurants">
                 <Button variant="outline" className="flex items-center gap-2 hover:bg-orange-50 hover:border-orange-500 hover:text-orange-600">
@@ -297,49 +311,44 @@ const Index = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredRestaurants.map((restaurant) => (
-              <Card key={restaurant.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
-                <div className="relative">
-                  <img
-                    src={restaurant.image}
-                    alt={restaurant.name}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-4 right-4">
-                    <Badge variant={restaurant.isOpen ? "default" : "secondary"} className={restaurant.isOpen ? "bg-green-500" : ""}>
-                      {restaurant.isOpen ? "Open" : "Closed"}
-                    </Badge>
+          {/* Restaurant Info Card */}
+          <div className="max-w-2xl mx-auto mb-8">
+            <Card className="overflow-hidden">
+              <div className="relative">
+                <img
+                  src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&h=400&fit=crop"
+                  alt={selectedOutlet.name}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="absolute top-4 right-4">
+                  <Badge className="bg-green-500">Open</Badge>
+                </div>
+              </div>
+              <CardContent className="p-6">
+                <h3 className="font-bold text-xl mb-2">{selectedOutlet.name}</h3>
+                <div className="space-y-2 text-gray-600">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4" />
+                    <span>{selectedOutlet.address}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    <span>Delivery: {selectedOutlet.deliveryTime}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Phone className="w-4 h-4" />
+                    <span>{selectedOutlet.phone}</span>
                   </div>
                 </div>
-                <CardContent className="p-4">
-                  <h3 className="font-bold text-lg mb-1">{restaurant.name}</h3>
-                  <p className="text-gray-600 text-sm mb-2">{restaurant.cuisine}</p>
-                  
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium">{restaurant.rating}</span>
-                    </div>
-                    <div className="flex items-center space-x-1 text-gray-600">
-                      <Clock className="w-4 h-4" />
-                      <span className="text-sm">{restaurant.deliveryTime}</span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">
-                      Delivery: ₹{restaurant.deliveryFee}
-                    </span>
-                    <Link to={`/restaurant/${restaurant.id}`}>
-                      <Button size="sm" className="bg-orange-500 hover:bg-orange-600">
-                        View Menu
-                      </Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                <div className="mt-4">
+                  <Link to="/restaurants">
+                    <Button className="w-full bg-orange-500 hover:bg-orange-600">
+                      View Menu for this Location
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

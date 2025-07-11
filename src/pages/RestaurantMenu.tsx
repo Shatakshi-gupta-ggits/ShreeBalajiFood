@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star, Clock, MapPin, Plus, ArrowLeft } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import LocationSelector from "@/components/LocationSelector";
+import { useLocation } from "@/contexts/LocationContext";
 
 const RestaurantMenu = () => {
   const { id } = useParams();
@@ -13,17 +14,18 @@ const RestaurantMenu = () => {
   const { addToCart } = useCart();
   const [activeCategory, setActiveCategory] = useState("pizza");
   const [showMoreDishes, setShowMoreDishes] = useState(false);
+  const { selectedOutlet } = useLocation();
 
   const restaurant = {
-    id: Number(id),
-    name: "Shri Balaji Foods",
+    id: 1,
+    name: selectedOutlet.name,
     rating: 4.8,
     cuisine: "Pure Vegetarian",
-    deliveryTime: "25-35 min",
+    deliveryTime: selectedOutlet.deliveryTime,
     deliveryFee: 2.99,
     image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&h=400&fit=crop",
     isOpen: true,
-    location: "Downtown"
+    location: selectedOutlet.address
   };
 
   const menuCategories = [
@@ -96,7 +98,7 @@ const RestaurantMenu = () => {
         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
           <div className="container mx-auto">
             <h1 className="text-3xl md:text-4xl font-bold mb-2">{restaurant.name}</h1>
-            <div className="flex flex-wrap items-center gap-4 text-sm">
+            <div className="flex flex-wrap items-center gap-4 text-sm mb-4">
               <div className="flex items-center gap-1">
                 <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                 <span>{restaurant.rating}</span>
@@ -115,6 +117,10 @@ const RestaurantMenu = () => {
               <Badge className="bg-green-600">
                 Pure Vegetarian
               </Badge>
+            </div>
+            {/* Location Selector in Header */}
+            <div className="max-w-sm">
+              <LocationSelector />
             </div>
           </div>
         </div>
