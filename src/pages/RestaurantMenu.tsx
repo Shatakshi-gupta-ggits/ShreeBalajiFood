@@ -11,14 +11,14 @@ const RestaurantMenu = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const [activeCategory, setActiveCategory] = useState("starters");
+  const [activeCategory, setActiveCategory] = useState("pizza");
   const [showMoreDishes, setShowMoreDishes] = useState(false);
 
   const restaurant = {
     id: Number(id),
-    name: "Mario's Pizza Palace",
+    name: "Shri Balaji Foods",
     rating: 4.8,
-    cuisine: "Italian",
+    cuisine: "Pure Vegetarian",
     deliveryTime: "25-35 min",
     deliveryFee: 2.99,
     image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&h=400&fit=crop",
@@ -27,41 +27,35 @@ const RestaurantMenu = () => {
   };
 
   const menuCategories = [
-    { id: "starters", name: "Starters", icon: "🥗" },
     { id: "pizza", name: "Pizza", icon: "🍕" },
-    { id: "pasta", name: "Pasta", icon: "🍝" },
-    { id: "desserts", name: "Desserts", icon: "🍰" },
-    { id: "beverages", name: "Beverages", icon: "🥤" }
+    { id: "beverages", name: "Beverages", icon: "☕" },
+    { id: "juices", name: "Juices", icon: "🧃" },
+    { id: "combos", name: "Combos", icon: "🎁" }
   ];
 
   const menuItems = {
-    starters: [
-      { id: 1, name: "Garlic Bread", description: "Crispy bread with garlic butter", price: 6.99, image: "https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?w=300&h=200&fit=crop", offer: "20% OFF" },
-      { id: 2, name: "Caesar Salad", description: "Fresh romaine with parmesan", price: 8.99, image: "https://images.unsplash.com/photo-1551248429-40975aa4de74?w=300&h=200&fit=crop", offer: null },
-      { id: 21, name: "Bruschetta", description: "Toasted bread with tomatoes", price: 7.99, image: "https://images.unsplash.com/photo-1572441713132-51c75654db73?w=300&h=200&fit=crop", offer: "15% OFF" },
-      { id: 22, name: "Mozzarella Sticks", description: "Golden fried cheese sticks", price: 9.99, image: "https://images.unsplash.com/photo-1548869206-93b036288d7e?w=300&h=200&fit=crop", offer: null }
-    ],
     pizza: [
-      { id: 3, name: "Margherita Pizza", description: "Fresh tomato, mozzarella, basil", price: 12.99, image: "https://images.unsplash.com/photo-1604382354936-07c5b5d013d8?w=300&h=200&fit=crop", offer: "Buy 1 Get 1 Free" },
-      { id: 4, name: "Pepperoni Pizza", description: "Spicy pepperoni with cheese", price: 15.99, image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=300&h=200&fit=crop", offer: null },
-      { id: 23, name: "Mushroom Pizza", description: "Fresh mushrooms with cheese", price: 14.99, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=200&fit=crop", offer: "25% OFF" },
-      { id: 24, name: "BBQ Chicken Pizza", description: "BBQ sauce with grilled chicken", price: 17.99, image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300&h=200&fit=crop", offer: null }
-    ],
-    pasta: [
-      { id: 5, name: "Spaghetti Carbonara", description: "Creamy pasta with bacon", price: 14.99, image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=300&h=200&fit=crop", offer: null },
-      { id: 6, name: "Penne Arrabbiata", description: "Spicy tomato pasta", price: 13.99, image: "https://images.unsplash.com/photo-1563379091339-03246963d25c?w=300&h=200&fit=crop", offer: "30% OFF" },
-      { id: 25, name: "Fettuccine Alfredo", description: "Rich and creamy white sauce", price: 16.99, image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=300&h=200&fit=crop", offer: null },
-      { id: 26, name: "Lasagna", description: "Layered pasta with meat sauce", price: 18.99, image: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=300&h=200&fit=crop", offer: "20% OFF" }
-    ],
-    desserts: [
-      { id: 7, name: "Tiramisu", description: "Classic Italian dessert", price: 7.99, image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=300&h=200&fit=crop", offer: null },
-      { id: 27, name: "Panna Cotta", description: "Silky smooth Italian dessert", price: 6.99, image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&h=200&fit=crop", offer: "Buy 2 Get 1 Free" },
-      { id: 28, name: "Gelato", description: "Authentic Italian ice cream", price: 5.99, image: "https://images.unsplash.com/photo-1567206563064-6f60f40a2b57?w=300&h=200&fit=crop", offer: null }
+      { id: 1, name: "Sweet Corn Pizza", description: "Delicious pizza with sweet corn topping", price: 99.00, image: "https://images.unsplash.com/photo-1604382354936-07c5b5d013d8?w=300&h=200&fit=crop", offer: "20% OFF" },
+      { id: 2, name: "Cheese Pizza", description: "Classic cheese pizza with fresh mozzarella", price: 129.00, image: "https://images.unsplash.com/photo-1551248429-40975aa4de74?w=300&h=200&fit=crop", offer: null },
+      { id: 3, name: "Double Cheese Pizza", description: "Extra cheesy pizza for cheese lovers", price: 149.00, image: "https://images.unsplash.com/photo-1572441713132-51c75654db73?w=300&h=200&fit=crop", offer: "15% OFF" },
+      { id: 4, name: "Mix Veg Pizza", description: "Fresh vegetables with cheese", price: 179.00, image: "https://images.unsplash.com/photo-1548869206-93b036288d7e?w=300&h=200&fit=crop", offer: null },
+      { id: 5, name: "Tandoori Veg Pizza", description: "Tandoori flavored vegetable pizza", price: 199.00, image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=200&fit=crop", offer: "25% OFF" },
+      { id: 6, name: "Paneer Paradise Pizza", description: "Rich paneer with special sauce", price: 219.00, image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=300&h=200&fit=crop", offer: null },
+      { id: 7, name: "Cheese Burst Pizza", description: "Cheese bursting from every bite", price: 249.00, image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300&h=200&fit=crop", offer: "Buy 1 Get 1 Free" },
+      { id: 8, name: "Pare Pari Pizza", description: "Crispy and crunchy pizza delight", price: 169.00, image: "https://images.unsplash.com/photo-1604382354936-07c5b5d013d8?w=300&h=200&fit=crop", offer: "30% OFF" }
     ],
     beverages: [
-      { id: 8, name: "Coke", description: "Chilled soft drink", price: 2.99, image: "https://images.unsplash.com/photo-1581636625402-29d2c0502b5a?w=300&h=200&fit=crop", offer: null },
-      { id: 29, name: "Italian Soda", description: "Sparkling flavored water", price: 3.99, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=200&fit=crop", offer: "15% OFF" },
-      { id: 30, name: "Fresh Juice", description: "Freshly squeezed orange juice", price: 4.99, image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300&h=200&fit=crop", offer: null }
+      { id: 9, name: "Choco Cold Coffee", description: "Chilled chocolate coffee", price: 39.00, image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300&h=200&fit=crop", offer: null },
+      { id: 15, name: "Banana Shake", description: "Fresh banana milkshake", price: 49.00, image: "https://images.unsplash.com/photo-1553909489-cd47e0ef937f?w=300&h=200&fit=crop", offer: "15% OFF" }
+    ],
+    juices: [
+      { id: 10, name: "Anar Juice", description: "Fresh pomegranate juice", price: 99.00, image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300&h=200&fit=crop", offer: null },
+      { id: 11, name: "Pineapple Juice", description: "Freshly squeezed pineapple juice", price: 49.00, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=200&fit=crop", offer: "20% OFF" },
+      { id: 12, name: "Mosambi Juice", description: "Fresh sweet lime juice", price: 70.00, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=300&h=200&fit=crop", offer: null }
+    ],
+    combos: [
+      { id: 13, name: "Family Pack Combo", description: "Perfect combo for family", price: 451.00, image: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=200&fit=crop", offer: "Save ₹100" },
+      { id: 14, name: "Pro Combo - The Balaji Special Box", description: "Our signature combo box", price: 349.00, image: "https://images.unsplash.com/photo-1604382354936-07c5b5d013d8?w=300&h=200&fit=crop", offer: "🏆 Special" }
     ]
   };
 
@@ -118,6 +112,9 @@ const RestaurantMenu = () => {
               <Badge className="bg-green-500">
                 {restaurant.isOpen ? "Open" : "Closed"}
               </Badge>
+              <Badge className="bg-green-600">
+                Pure Vegetarian
+              </Badge>
             </div>
           </div>
         </div>
@@ -128,7 +125,7 @@ const RestaurantMenu = () => {
           {/* Menu Categories */}
           <div className="lg:col-span-1">
             <div className="sticky top-4">
-              <h2 className="text-xl font-bold mb-4">Menu</h2>
+              <h2 className="text-xl font-bold mb-4">Menu Categories</h2>
               <div className="space-y-2">
                 {menuCategories.map((category) => (
                   <button
@@ -173,7 +170,7 @@ const RestaurantMenu = () => {
                       <div className="p-4 flex-1">
                         <div className="flex justify-between items-start mb-2">
                           <h3 className="text-lg font-semibold">{item.name}</h3>
-                          <span className="text-lg font-bold text-orange-500">${item.price}</span>
+                          <span className="text-lg font-bold text-orange-500">₹{item.price}</span>
                         </div>
                         <p className="text-gray-600 mb-4">{item.description}</p>
                         <Button
