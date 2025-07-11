@@ -46,16 +46,16 @@ const RestaurantMenu = () => {
     ],
     beverages: [
       { id: 9, name: "Choco Cold Coffee", description: "Chilled chocolate coffee", price: 39.00, image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300&h=200&fit=crop", offer: null },
-      { id: 15, name: "Banana Shake", description: "Fresh banana milkshake", price: 49.00, image: "https://images.unsplash.com/photo-1553909489-cd47e0ef937f?w=300&h=200&fit=crop", offer: "15% OFF" }
+      { id: 10, name: "Banana Shake", description: "Fresh banana milkshake", price: 49.00, image: "https://images.unsplash.com/photo-1553909489-cd47e0ef937f?w=300&h=200&fit=crop", offer: "15% OFF" }
     ],
     juices: [
-      { id: 10, name: "Anar Juice", description: "Fresh pomegranate juice", price: 99.00, image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300&h=200&fit=crop", offer: null },
-      { id: 11, name: "Pineapple Juice", description: "Freshly squeezed pineapple juice", price: 49.00, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=200&fit=crop", offer: "20% OFF" },
-      { id: 12, name: "Mosambi Juice", description: "Fresh sweet lime juice", price: 70.00, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=300&h=200&fit=crop", offer: null }
+      { id: 11, name: "Anar Juice", description: "Fresh pomegranate juice", price: 99.00, image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300&h=200&fit=crop", offer: null },
+      { id: 12, name: "Pineapple Juice", description: "Freshly squeezed pineapple juice", price: 49.00, image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=200&fit=crop", offer: "20% OFF" },
+      { id: 13, name: "Mosambi Juice", description: "Fresh sweet lime juice", price: 70.00, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=300&h=200&fit=crop", offer: null }
     ],
     combos: [
-      { id: 13, name: "Family Pack Combo", description: "Perfect combo for family", price: 451.00, image: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=200&fit=crop", offer: "Save ₹100" },
-      { id: 14, name: "Pro Combo - The Balaji Special Box", description: "Our signature combo box", price: 349.00, image: "https://images.unsplash.com/photo-1604382354936-07c5b5d013d8?w=300&h=200&fit=crop", offer: "🏆 Special" }
+      { id: 14, name: "Family Pack Combo", description: "Perfect combo for family", price: 451.00, image: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=300&h=200&fit=crop", offer: "Save ₹100" },
+      { id: 15, name: "Pro Combo - The Balaji Special Box", description: "Our signature combo box", price: 349.00, image: "https://images.unsplash.com/photo-1604382354936-07c5b5d013d8?w=300&h=200&fit=crop", offer: "🏆 Special" }
     ]
   };
 
@@ -70,7 +70,7 @@ const RestaurantMenu = () => {
   };
 
   const currentItems = menuItems[activeCategory as keyof typeof menuItems] || [];
-  const visibleItems = showMoreDishes ? currentItems : currentItems.slice(0, 3);
+  const visibleItems = showMoreDishes ? currentItems : currentItems.slice(0, 6);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -186,7 +186,7 @@ const RestaurantMenu = () => {
                 </Card>
               ))}
               
-              {currentItems.length > 3 && (
+              {currentItems.length > 6 && (
                 <div className="text-center">
                   <Button
                     variant="outline"
